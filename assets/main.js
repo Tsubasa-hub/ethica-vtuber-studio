@@ -1,27 +1,48 @@
-// ヘッダーの切り替え・モバイルメニュー・スクロール表示
-(function(){
-  var hd=document.querySelector('.hd'),hero=document.querySelector('.hero');
-  function onScroll(){
-    if(!hd||hd.classList.contains('sub'))return;
-    var th=hero?hero.offsetHeight-80:40;
-    hd.classList.toggle('solid',window.scrollY>th);
+(() => {
+  'use strict';
+  const header = document.querySelector('.site-header');
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('.main-nav');
+  document.documentElement.classList.add('menu-ready');
+  const updateHeader = () => header.classList.toggle('scrolled', window.scrollY > 24);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  function closeMenu(returnFocus = false) {
+    document.body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'メニューを開く');
+    if (returnFocus) toggle.focus();
   }
-  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
-
-  var bg=document.querySelector('.burger'),mn=document.querySelector('.mnav');
-  if(bg&&mn){
-    bg.addEventListener('click',function(){
-      var o=!mn.classList.contains('open');
-      mn.classList.toggle('open',o);bg.classList.toggle('open',o);hd.classList.toggle('menu',o);
-      bg.setAttribute('aria-expanded',o?'true':'false');
-      document.body.style.overflow=o?'hidden':'';
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    document.body.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+  });
+  nav.addEventListener('click', e => { if (e.target.closest('a')) closeMenu(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu(true);
+  });
+  document.addEventListener('click', e => {
+    if (!header.contains(e.target)) closeMenu();
+  });
+  header.addEventListener('focusout', () => {
+    setTimeout(() => { if (!header.contains(document.activeElement)) closeMenu(); }, 0);
+  });
+  window.matchMedia('(min-width: 1101px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('pending');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.add('pending');
+      observer.observe(el);
     });
-    mn.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){bg.click();});});
+    document.documentElement.classList.add('reveal-ready');
   }
-
-  var els=document.querySelectorAll('.rv');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px',threshold:.08});
-    els.forEach(function(el){io.observe(el);});
-  }else{els.forEach(function(el){el.classList.add('on');});}
 })();
