@@ -37,3 +37,27 @@ body{line-height:1.8}
 
 /* 文言の書き換えに伴う調整 */
 .hero-detail{max-width:36em}
+
+/* 段落分け・改行の調整（スマホ前提。.sp はスマホのみ改行、.pc はデスクトップのみ改行） */
+.sp{display:none}.pc{display:inline}
+@media(max-width:760px){.sp{display:inline}.pc{display:none}}
+.detail-copy p:not(.detail-number)+p:not(.detail-number),.business-lead p+p,.access-content p+p,.terms-intro p+p,.message-intro p+p,.section-intro p+p{margin-top:12px}
+.message-intro h3+p{margin-top:0}
+.detail-points{font-size:13px}
+.detail-points li{margin-bottom:10px}
+h1,h2,h3{text-wrap:pretty}
+.data-list dd{line-height:1.9}
+@media(max-width:760px){.detail-copy p:not(.detail-number)+p:not(.detail-number),.business-lead p+p{margin-top:14px}.hero-detail{line-height:2}.contact-copy,.contact-promise{line-height:2}}
+
+/* 改行・折り返しの最終調整 */
+.hero-detail{max-width:44em}
+@media(max-width:760px){
+  .business-title .serif{font-size:20px;letter-spacing:.02em;line-height:1.9}
+  .message-intro h3{font-size:30px;line-height:1.75}
+  .values h3{font-size:22px;line-height:1.6}
+  .values h3 br{display:inline}
+  .data-list dd{font-size:14px}
+  .hero h1{font-size:34px}
+}
+@media(min-width:761px) and (max-width:1100px){.message-intro h3{font-size:34px}}
+@media(min-width:761px) and (max-width:1100px){.values{grid-template-columns:1fr;gap:32px}.values h3{font-size:24px}.values h3 br{display:none}}
