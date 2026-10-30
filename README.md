@@ -10,7 +10,7 @@
   - 03 CREATIVE（キャラクター制作／映像／デザイン／ブランディング・構成）
   - 04 CREATOR SUPPORT（税務／法務・契約／資金・機材の計画／条件の事前開示）← サムライの「ファイナンス事業」の VTuber 版
 - 支援項目・対象 A/B/C・料金条件の表は 2026-09-08 のデザイン提案（支援事務所版）と有識者ご意見用スライドに揃えている。文章は 2026-10-29 にオーナー指示で「AI っぽくない自然な日本語」に全面書き換え済み（キャッチ調・英語の飾り文句は使わない）
-- ヒーローのキャラクター画像は **GPT 画像生成（gpt-image-2）による仮ビジュアル**。原画 PNG と生成プロンプト、Midjourney 用プロンプトは `../site_assets_素材/`。Midjourney で作り直したら `assets/img/hero_wide.{jpg,webp}`（16:9）と `hero_portrait.{jpg,webp}`（2:3）を同名で上書きすれば HTML の変更は不要
+- ヒーローのキャラクター画像は **GPT 画像生成（gpt-image-2）による仮ビジュアル**。原画 PNG と生成プロンプト、Midjourney 用プロンプトは `../site_assets_素材/`。画像は Real-ESRGAN（アニメ用 6B・`../site_assets_素材/upscale.py`、ComfyUI の venv で実行）で 4 倍に拡大してから 2 倍解像度版（`@2x`）と等倍版を書き出し、`srcset` で Retina 画面に 2 倍版を配信している。Midjourney で作り直したら原画 PNG を `../site_assets_素材/` に置いて `upscale.py` を回し、`hero_wide{,@2x}.{jpg,webp}`（16:9）と `hero_portrait{,@2x}.{jpg,webp}`（2:3）を同名で上書きすれば HTML の変更は不要
 - Claude が先に組んだ第 1 版は `../site_design_サイトデザイン/2026-10-29_claude_v1/` に保管（黒田レビュー済み・不採用）
 
 ## ファイル構成
